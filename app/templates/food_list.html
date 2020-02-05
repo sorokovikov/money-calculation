@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Food list{% endblock %}
+{% block body %}
+<h1>Food list</h1>
+<ul>
+    {% for food in food_list %}
+        <li>{{ food['food_name'] }}, {{ food['price'] }} руб./шт., {{ food['count'] }} шт., {{ food['cost']}} руб.</li>
+    {% endfor %}
+    {% if total_cost %}
+        <p>Общая стоимость: {{ total_cost }} руб.</p>
+    {% else %}
+        <p>Список еды пуст.</p>
+    {% endif %}
+</ul>
+{% endblock %}

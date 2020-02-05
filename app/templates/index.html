@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Welcome-page{% endblock %}
+{% block body %}
+    <h1><a href="{{ url_for('personal_hello', name='Ivan') }}">Welcome to Python messenger.</a></h1>
+    <p>Здравствуйте, {{ current_user.username }}.</p>
+    <p><a href="{{ url_for('new_person') }}">Добавить нового человека</a></p>
+{% endblock %}
