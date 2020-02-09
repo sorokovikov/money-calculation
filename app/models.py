@@ -1,5 +1,7 @@
 from app import db, login
+from datetime import datetime
 from flask_login import UserMixin
+from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -14,6 +16,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     foods = db.relationship('Food', backref='buyer', lazy='dynamic')
+    status = db.Column(db.String(100))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -24,13 +28,17 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('UTF-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=retro&s={}'.format(digest, size)
+
 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(20))
-    food_count = db.Column(db.Integer)
-    food_price = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+    price = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Food {}>'.format(self.food_name)
+        return '<Food {}>'.format(self.name)
