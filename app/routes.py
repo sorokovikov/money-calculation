@@ -1,5 +1,5 @@
 from app import app, db, forms
-from app.models import User, Food
+from app.models import User, Product
 from datetime import datetime
 from flask import render_template, flash, redirect, request, url_for
 from flask_login import current_user, login_user, login_required, logout_user
@@ -66,8 +66,8 @@ def logout():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    foods = Food.query.all()
-    return render_template('user.html', user=user, foods=foods)
+    products = Product.query.all()
+    return render_template('user.html', user=user, products=products)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
