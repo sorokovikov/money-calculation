@@ -15,13 +15,13 @@
         </tr>
     </table>
     <hr>
-    {% for food in foods %}
+    {% for product in products %}
     <table>
         <tr valign="top">
-            <td><img src="{{ food.buyer.avatar(32) }}"></td>
-            <td>{{ food.buyer.username }} покупает:<br>
-                <b>"{{ food.food_name }}"</b> в количестве <b>{{ food.count }}</b>
-                штук за <b>{{ food.price * food.count }}</b> рублей.</td>
+            <td><img src="{{ product.buyer.avatar(32) }}"></td>
+            <td>{{ product.buyer.username }} покупает:<br>
+                <b>"{{ product.product_name }}"</b> в количестве <b>{{ product.count }}</b>
+                штук за <b>{{ product.price * product.count }}</b> рублей.</td>
         </tr>
     </table>
     {% endfor %}

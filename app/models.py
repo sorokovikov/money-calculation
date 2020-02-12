@@ -11,11 +11,12 @@ def load_user(id):
 
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    foods = db.relationship('Food', backref='buyer', lazy='dynamic')
+    foods = db.relationship('Product', backref='buyer', lazy='dynamic')
     status = db.Column(db.String(100))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -33,12 +34,13 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=retro&s={}'.format(digest, size)
 
 
-class Food(db.Model):
+class Product(db.Model):
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    food_name = db.Column(db.String(20))
+    product_name = db.Column(db.String(20))
     count = db.Column(db.Integer)
     price = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
         return '<Food {}>'.format(self.name)
