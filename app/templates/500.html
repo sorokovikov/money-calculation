@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Page not found, 404{% endblock %}
+{% block body %}
+<h1>Непредвиденная ошибка</h1>
+<p>Системный администратор уже оповещен. Приносим извинения за неудобства.</p>
+<p><a href="{{ url_for('index') }}">На главную страницу</a></p>
+{% endblock %}
