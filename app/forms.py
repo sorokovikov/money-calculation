@@ -35,6 +35,18 @@ class NameForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Логин', validators=[DataRequired()])
-    status = TextAreaField('Статус', validators=[Length(min=0, max=100)])
+    username = StringField('Логин:', validators=[DataRequired()])
+    status = TextAreaField('Статус:', validators=[Length(min=0, max=100)])
     submit = SubmitField('Принять')
+
+    def __init__(self, original_username, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.original_username = original_username
+
+    def validate_username(self, username):
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
+            if user is not None:
+                wrong_name = self.username.data
+                self.username.data = self.original_username
+                raise ValidationError('Логин "{}" уже занят. Пожалуйста, придумайте другой.'.format(wrong_name))
