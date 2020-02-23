@@ -95,6 +95,20 @@ def new_person():
     return render_template('new_person.html', form=form)
 
 
+@app.route('/add_product', methods=['GET', 'POST'])
+@login_required
+def add_product():
+    form = forms.AddProductForm()
+    if form.validate_on_submit():
+        product = Product(product_name=form.product_name.data, count=int(form.count.data),
+                          price=int(form.price.data), user_id=current_user.id)
+        db.session.add(product)
+        db.session.commit()
+        flash('Продукт успешно добавлен.')
+        return redirect(url_for('index'))
+    return render_template('add_product.html', form=form)
+
+
 @app.route('/add_person', methods=['POST'])
 def add_person():
     data = request.json

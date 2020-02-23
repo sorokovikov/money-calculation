@@ -1,6 +1,8 @@
+from wsgiref import validate
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Regexp
 from app.models import User
 
 
@@ -50,3 +52,12 @@ class EditProfileForm(FlaskForm):
                 wrong_name = self.username.data
                 self.username.data = self.original_username
                 raise ValidationError('Логин "{}" уже занят. Пожалуйста, придумайте другой.'.format(wrong_name))
+
+
+class AddProductForm(FlaskForm):
+    product_name = StringField('Название продукта:', validators=[DataRequired()])
+    count = StringField('Количество продукта:', validators=[DataRequired(),
+                                                            Regexp(regex=r'\d', message='Введите число')])
+    price = StringField('Цена одной единицы продукта:', validators=[DataRequired(),
+                                                                    Regexp(regex=r'\d', message='Введите число')])
+    submit = SubmitField('Принять')

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Добавить продукт{% endblock%}
+{% block body %}
+    <h1>Добавление продукта</h1>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.product_name.label }}<br>
+            {{ form.product_name(size=32) }}<br>
+            {% for error in form.product_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.count.label }}<br>
+            {{ form.count(size=10) }}<br>
+            {% for error in form.count.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.price.label }}<br>
+            {{ form.price(size=20) }}<br>
+            {% for error in form.price.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
